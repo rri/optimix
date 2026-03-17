@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-title" content="{{ config.title }}">
+    <meta name="application-name" content="{{ config.title }}">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="{{ config.description }}">
+    <meta property="og:title" content="{{ config.title }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ config.base_url }}">
+    <meta property="og:description" content="{{ config.description }}">
+    {% if config.extra.icon %}
+    <meta property="og:image" content="{{ config.extra.icon }}">
+    {% endif %}
+    {% if page.title %}
+    <title>{{ config.title }} : {{ page.title }}</title>
+    {% else %}
+    <title>{{ config.title }}</title>
+    {% endif %}
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ get_url(path='/apple-touch-icon.png', cachebust=true) }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ get_url(path='/icon-192x192.png', cachebust=true) }}">
+    <link rel="shortcut icon" href="{{ get_url(path='/favicon.ico', cachebust=true) }}">
+    <link rel="manifest" href="{{ get_url(path='/site.webmanifest', cachebust=true) }}">
+    <style>
+        {% if config.extra.background is defined %}
+        :root {
+            --background: url("/{{ config.extra.background }}");
+        }
+        {% endif %}
+        {% if config.extra.background_header is defined %}
+        :root {
+            --background-header: url("/{{ config.extra.background_header }}");
+        }
+        {% endif %}
+    </style>
+    <link rel="stylesheet" href="{{ get_url(path='/normalize.css', cachebust=true) }}">
+    <link rel="stylesheet" href="{{ get_url(path='/styles.css', cachebust=true) }}">
+    <link rel="stylesheet" href="/giallo-common.css">
+    <link rel="stylesheet" href="/giallo-dark.css" media="(prefers-color-scheme: dark)">
+    <link rel="stylesheet" href="/giallo-light.css" media="(prefers-color-scheme: light)">
+    {% if paginator %}
+    {% if paginator.previous %}
+    <link rel="prev" href="{{ paginator.previous | safe }}" />
+    {% endif %}
+    {% if paginator.next %}
+    <link rel="next" href="{{ paginator.next | safe }}" />
+    {% endif %}
+    {% else %}
+    {% if page.lower %}
+    <link rel="prev" href="{{ page.lower.permalink | safe }}" />
+    {% endif %}
+    {% if page.higher %}
+    <link rel="next" href="{{ page.higher.permalink | safe }}" />
+    {% endif %}
+    {% endif %}
+</head>
+
+<body>
+    <section id="main">
+        <div class="header-spacer"></div>
+        <div class="header">
+            {% if config.extra.icon %}
+            <a href="/" title="Go home">
+                <img
+                    {% if config.extra.allow_invert_icon %}
+                    class="icon invert"
+                    {% else %}
+                    class="icon"
+                    {% endif %}
+                    src="/{{ config.extra.icon }}"
+                    title="{{ config.title }}"
+                    alt="" />
+            </a>
+            {% endif %}
+            {% if config.extra.logo %}
+            <a href="/" title="Go home">
+                <img
+                    {% if config.extra.allow_invert_logo %}
+                    class="logo invert"
+                    {% else %}
+                    class="logo"
+                    {% endif %}
+                    src="/{{ config.extra.logo }}"
+                    title="{{ config.title }}"
+                    alt="{{ config.title }}" />
+            </a>
+            {% endif %}
+        </div>
+        <div id="search" class="search noscript">
+            <input id="search-box" class="search-box" type="search" placeholder="Type text to search..." />
+            <div class="search-results hidden">
+                <div class="search-results-items"></div>
+            </div>
+        </div>
+        {% macro print_pinned(item) %}
+
+        {% if item.title %}
+        {% set title = item.title %}
+        {% else %}
+        {% set title = "" %}
+        {% endif %}
+
+        {% if item.href %}
+        {% set href = item.href %}
+        {% else %}
+        {% set href = "" %}
+        {% endif %}
+
+        {% if item.icon is defined %}
+        {% set icon = item.icon %}
+        {% else %}
+        {% set icon = "📌" %}
+        {% endif %}
+
+        {% if icon == "" %}
+        {% set content = title %}
+        {% else %}
+        {% set content = icon ~ " " ~ title %}
+        {% endif %}
+        <div class="toolbar-item">
+            <a href="{{ href }}" title="{{ title }}">
+                <span class="toolbar-item-content">{{ content }}</span>
+            </a>
+        </div>
+        {% endmacro print_pinned %}
+
+        {% set has_pinned_links = config.extra.pinned_links is defined and config.extra.pinned_links | length > 0 %}
+
+        {% if has_pinned_links %}
+        <div class="toolbar">
+            {% if config.extra.pinned_links is defined %}
+            {% for item in config.extra.pinned_links %}
+            {{ self::print_pinned(item=item) }}
+            {% endfor %}
+            {% endif %}
+        </div>
+        {% endif %}
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+        <div class="footer">
+            &#169; {{ config.extra.copyright_info }}
+        </div>
+    </section>
+    <script type="text/javascript" src="{{ get_url(path='/elasticlunr.min.js', cachebust=true) }}"></script>
+    <script type="text/javascript" src="{{ get_url(path='/search_index.en.js', cachebust=true) }}"></script>
+    <script type="text/javascript" src="{{ get_url(path='/script.js', cachebust=true) }}"></script>
+    <script type="text/javascript"></script>
+</body>
+
+</html>

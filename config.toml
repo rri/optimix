@@ -1,0 +1,43 @@
+base_url = "https://optimix.dev"
+title = "optimix"
+description = "the universe in small bytes"
+default_language = "en"
+build_search_index = true
+compile_sass = true
+minify_html = true
+generate_feeds = true
+feed_filenames = ["atom.xml", "rss.xml"]
+exclude_paginated_pages_in_sitemap = "all"
+taxonomies = [
+    { name = "authors", paginate_by = 5, paginate_path = "pages", feed = true },
+    { name = "tags", paginate_by = 5, paginate_path = "pages", feed = true },
+]
+
+
+[markdown]
+smart_punctuation = true
+external_links_class = "external-link"
+external_links_no_follow = true
+external_links_no_referrer = true
+definition_list = true
+
+[markdown.highlighting]
+style = "class"
+light_theme = "gruvbox-light-medium"
+dark_theme = "gruvbox-dark-medium"
+error_on_missing_language = true
+
+[search]
+include_description = true
+include_date = true
+
+[extra]
+copyright_info = "Ramnath R Iyer"
+logo = "optimix.logo.webp"
+background = "background.webp"
+background_header = "checkers.svg"
+pinned_links = [
+    { title = "Articles", href = "/pages/articles/", icon = "" },
+    { title = "Publications", href = "/pages/publications/", icon = "" },
+    { title = "Contact", href = "/pages/contact/", icon = "" }
+]

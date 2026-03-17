@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% for page in paginator.pages %}
+{% include "posts/content.html" %}
+{% endfor %}
+{% include "navigator/list.html" %}
+{% endblock %}
+

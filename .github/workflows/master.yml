@@ -1,0 +1,34 @@
+name: Publish
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+permissions:
+ id-token: write
+ contents: read
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::965356658022:role/Builder
+          aws-region: us-west-1
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build package
+        uses: shalzz/zola-deploy-action@v0.22.1
+        env:
+          BUILD_ONLY: true
+      - name: Deploy package
+        run: |
+          aws s3 sync public/ s3://optimix-dev-website-assets-965356658022-us-west-1-an --delete --exclude "*" --include "*.ico" --include "*.png" --include "*.webp" --include "*.jpg" --include "*.svg" --include "*.woff2" --include "*.webmanifest" --include "*.css" --include "*.xml" --include "*.js" --cache-control max-age=31536000
+          aws s3 sync public/ s3://optimix-dev-website-assets-965356658022-us-west-1-an --delete --include "*" --exclude "*.ico" --exclude "*.png" --exclude "*.webp" --exclude "*.jpg" --exclude "*.svg" --exclude "*.woff2" --exclude "*.webmanifest" --exclude "*.css" --exclude "*.xml" --exclude "*.js" --cache-control max-age=86400
+          aws cloudfront create-invalidation --distribution-id E12WQNFU80D5HX --paths '/*'

@@ -1,0 +1,72 @@
+<article class="section">
+    {% if page.title %}
+    <div class="section-title">
+        {% if page.path != current_path %}
+        <a href="{{ page.permalink | safe }}" title="{{ page.title }}">{{ page.title }}</a>
+        {% else %}
+        {{ page.title }}
+        {% endif %}
+    </div>
+    {% endif %}
+    {% if not page.extra.hide_authors %}
+    {% set authors = get_taxonomy(kind = "authors") %}
+    {% if page.taxonomies.authors and authors | length > 0 %}
+    <div class="section-authors">
+        {% for author in page.taxonomies.authors %}
+        <span class="author"><a href="{{ get_taxonomy_url(kind = "authors", name = author) | safe }}" title="View all content authored by {{ author }}">{{ author }}</a></span>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endif %}
+    {% if not page.extra.hide_date %}
+    <div class="section-date">
+        {{ page.date | date(format="%A, %B %e, %Y") }}
+    </div>
+    {% endif %}
+    {% set tags = get_taxonomy(kind = "tags") %}
+    {% set current_tags = page.taxonomies | get(key="tags", default=[]) %}
+    {% if current_tags | length > 0 %}
+    <div class="section-tags">
+        {% set tags_url = tags.permalink | safe %}
+        <a class="tags-link" href="{{ tags_url | safe }}" title="View all tags">☁️</a>
+        {% for tag in current_tags %}
+        <span class="tag"><a href="{{ get_taxonomy_url(kind = "tags", name = tag) | safe }}" title="View all content tagged as {{ tag }}">#{{ tag }}</a></span>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="section-content">
+        {% if archive %}
+        {% set section = get_section(path="posts/_index.md") %}
+        {% for year, pages in section.pages | group_by (attribute = "year") %}
+        <div class="section-listing">
+            <h2 class="index-year">
+                {{ year }}
+            </h2>
+            {% for page in pages %}
+            <div class="index-record">
+                <div class="index-date">
+                    {{ page.date | date(format="%Y-%m-%d") }}
+                </div>
+                <div class="index-title">
+                    <a href="{{ page.permalink | safe }}" title="{{ page.title }}">{{ page.title }}</a>
+                </div>
+            </div>
+        {% endfor %}
+        {% endfor %}
+        </div>
+        {% else %}
+        {% if page.toc and page.extra.toc %}
+        <h1>On This Page...</h1>
+        <ul>
+            {% for h1 in page.toc %}
+            <li>
+                <a href="{{ h1.permalink | safe }}">{{ h1.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {{ page.content | safe }}
+        {% endif %}
+    </div>
+    </div>
+</article>

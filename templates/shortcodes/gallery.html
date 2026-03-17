@@ -1,0 +1,19 @@
+<div class="gallery">
+{% for asset in page.assets %}
+    {% if asset is matching(page.slug ~ "/" ~ folder ~ "/[^/]*[.](webp|jpg|png)$") %}
+    {% set image = resize_image(path=asset, width=240, height=180, format="webp") %}
+    {% set large = resize_image(path=asset, width=1024, height=768, op="fit", format="webp") %}
+    {% set uid = folder ~ "-" ~ rand ~ "-" ~ loop.index %}
+    <figure id="figure-{{ uid }}">
+        <a href="#lightbox-{{ uid }}" aria-label="Gallery Image">
+            <img class="gallery-item" src="{{ image.url }}" alt="" width="240" height="180" />
+        </a>
+    </figure>
+    <dialog id="lightbox-{{ uid }}" class="lightbox">
+        <a href="#figure-{{ uid }}">
+            <img src="{{ large.url }}" loading="lazy" alt="" />
+        </a>
+    </dialog>
+    {% endif %}
+{% endfor %}
+</div>

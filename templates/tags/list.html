@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<article class="post">
+    <div class="section-title">
+        {{ taxonomy.name | capitalize }}
+    </div>
+    <div class="section-content">
+        <ul type="square" class="tag-cloud" role="navigation" aria-label="Tag Cloud">
+            {% for term in terms %}
+            <li>
+                <a href="{{ term.permalink | safe }}" title="View details">
+                    <span class="tag" data-weight="{{ term.page_count }}">{{ term.name }}</span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</article>
+{% endblock %}

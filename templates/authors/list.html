@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<article class="post">
+    <div class="section-title">
+        {{ taxonomy.name | capitalize }}
+    </div>
+    <div class="section-content">
+        <ul type="square" class="authors" role="navigation" aria-label="Authors">
+            {% for term in terms %}
+            <li>
+                <a href="{{ term.permalink | safe }}" title="View details">
+                    <span class="author">{{ term.name }}</span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</article>
+{% endblock %}
+
