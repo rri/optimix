@@ -695,6 +695,10 @@ img + em, video + em {
             justify-content: flex-end;
         }
 
+        .section-listing {
+            column-width: 20em;
+        }
+
         .index-year {
             border-bottom: var(--line-width) solid var(--line-color);
             column-span: all;
