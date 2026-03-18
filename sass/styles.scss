@@ -401,7 +401,7 @@ img + em, video + em {
     }
 
     .header {
-        align-items: center;
+        align-items: baseline;
         background-image: var(--background-header);
         background-repeat: repeat;
         display: flex;
@@ -530,7 +530,7 @@ img + em, video + em {
         font-family: var(--font-heading);
         font-size: 0.9em;
         justify-content: center;
-        align-items: center;
+        align-items: baseline;
         padding: var(--spacing-md);
 
         .toolbar-item {
@@ -538,7 +538,7 @@ img + em, video + em {
 
             a {
                 display: inline-flex;
-                align-items: center;
+                align-items: baseline;
                 padding: var(--spacing-sm) var(--spacing-md);
                 text-decoration: none;
                 transition: var(--transition);
@@ -665,7 +665,7 @@ img + em, video + em {
 
                 .section-actions {
                     display: flex;
-                    align-items: center;
+                    align-items: baseline;
                     justify-content: center;
                     gap: var(--spacing-md);
 
@@ -712,7 +712,8 @@ img + em, video + em {
 
         .index-record {
             display: flex;
-            align-items: center;
+            align-items: baseline;
+            break-inside: avoid;
             justify-content: stretch;
             column-gap: var(--spacing-sm);
             flex-wrap: nowrap;
@@ -791,7 +792,7 @@ img + em, video + em {
             margin: var(--spacing-lg) auto;
             display: flex;
             flex-wrap: wrap;
-            align-items: center;
+            align-items: baseline;
             justify-content: center;
             line-height: 2em;
             max-width: 75%;
@@ -868,7 +869,7 @@ img + em, video + em {
             border-left: 3px solid var(--accent-color);
             box-shadow: var(--drop-shadow-inner);
             display: flex;
-            align-items: center;
+            align-items: baseline;
             gap: var(--spacing-md);
             padding: var(--spacing-lg);
             margin: var(--spacing-lg) 0;
