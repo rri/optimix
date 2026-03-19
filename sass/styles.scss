@@ -151,7 +151,7 @@
         --link-hover-color: #ff8e8e;
         --note-back-color: #2d2a24;
         --note-fore-color: #b8b0a6;
-        --accent-color: #1a1510;
+        --accent-color: #d4af37;
         --highlight-color: #2a2520;
         --muted-color: #a0a0a0;
         --header-filter: invert(1) hue-rotate(180deg) brightness(0.6) contrast(1.2);
@@ -384,6 +384,14 @@ img + em, video + em {
         content: 'Figure: ';
         font-weight: bolder;
     }
+}
+
+blockquote {
+    margin: 0;
+    border-top-color: transparent;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-left: calc(4 * var(--line-width)) solid var(--accent-color);
+    background-color: var(--highlight-color);
 }
 
 #main {
