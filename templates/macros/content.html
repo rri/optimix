@@ -1,3 +1,4 @@
+{% macro render_post(page, show_collection=false) %}
 <article class="section">
     {% if page.title %}
     <div class="section-title">
@@ -35,19 +36,19 @@
     </div>
     {% endif %}
     <div class="section-content">
-        {% if archive %}
+        {% if show_collection %}
         {% set section = get_section(path="posts/_index.md") %}
         {% for year, pages in section.pages | group_by (attribute = "year") %}
         <div class="section-listing">
-            <h2 class="index-year">
+            <h2 class="collection-post-year">
                 {{ year }}
             </h2>
             {% for page in pages %}
-            <div class="index-record">
-                <div class="index-date">
+            <div class="collection-post-item">
+                <div class="collection-post-date">
                     {{ page.date | date(format="%Y-%m-%d") }}
                 </div>
-                <div class="index-title">
+                <div class="collection-post-title">
                     <a href="{{ page.permalink | safe }}" title="{{ page.title }}">{{ page.title }}</a>
                 </div>
             </div>
@@ -70,3 +71,42 @@
     </div>
     </div>
 </article>
+{% endmacro %}
+
+{% macro render_list_navigator(paginator) %}
+<nav class="nav">
+    <div class="newer">
+        {% if paginator.previous %}
+        <a href="{{ paginator.previous | safe }}" title="Newer">↑ newer</a>
+        {% else %}
+        ↑ newer
+        {% endif %}
+    </div>
+    <div class="older">
+        {% if paginator.next %}
+        <a href="{{ paginator.next | safe }}" title="Older">↓ older</a>
+        {% else %}
+        ↓ older
+        {% endif %}
+    </div>
+</nav>
+{% endmacro %}
+
+{% macro render_post_navigator(page) %}
+<nav class="nav">
+    <div class="newer">
+        {% if page.lower %}
+        <a href="{{ page.lower.permalink | safe }}" title="{{ page.lower.title }}">↑ newer</a>
+        {% else %}
+        ↑ newer
+        {% endif %}
+    </div>
+    <div class="older">
+        {% if page.higher %}
+        <a href="{{ page.higher.permalink | safe }}" title="{{ page.higher.title }}">↓ older</a>
+        {% else %}
+        ↓ older
+        {% endif %}
+    </div>
+</nav>
+{% endmacro %}

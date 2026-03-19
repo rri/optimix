@@ -699,7 +699,7 @@ img + em, video + em {
             column-width: 20em;
         }
 
-        .index-year {
+        .collection-post-year {
             border-bottom: var(--line-width) solid var(--line-color);
             column-span: all;
             padding-bottom: var(--spacing-sm);
@@ -710,7 +710,7 @@ img + em, video + em {
             }
         }
 
-        .index-record {
+        .collection-post-item {
             display: flex;
             align-items: baseline;
             break-inside: avoid;
@@ -718,14 +718,14 @@ img + em, video + em {
             column-gap: var(--spacing-sm);
             flex-wrap: nowrap;
 
-            .index-date {
+            .collection-post-date {
                 color: var(--muted-color);
                 font-size: 0.9em;
                 font-family: var(--font-mono);
                 flex-shrink: 0;
             }
 
-            .index-title {
+            .collection-post-title {
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;

@@ -1,9 +1,11 @@
+{% import "macros/content.html" as macro_content %}
+
 {% extends "base.html" %}
 
 {% block content %}
 {% for page in paginator.pages %}
-{% include "posts/content.html" %}
+{{ macro_content::render_post(page=page) }}
 {% endfor %}
-{% include "navigator/list.html" %}
+{{ macro_content::render_list_navigator(paginator=paginator) }}
 {% endblock %}
 
