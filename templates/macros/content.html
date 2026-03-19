@@ -1,4 +1,4 @@
-{% macro render_post(page, show_collection=false) %}
+{% macro render_article(page, show_collection=false) %}
 <div class="article">
     {% if page.title %}
     <div class="article-title">
@@ -72,7 +72,7 @@
 </div>
 {% endmacro %}
 
-{% macro render_list_navigator(paginator) %}
+{% macro render_collection_navigator(paginator) %}
 <div class="nav">
     <div class="newer">
         {% if paginator.previous %}
@@ -91,7 +91,7 @@
 </div>
 {% endmacro %}
 
-{% macro render_post_navigator(page) %}
+{% macro render_article_navigator(page) %}
 <div class="nav">
     <div class="newer">
         {% if page.lower %}
