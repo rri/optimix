@@ -1,5 +1,5 @@
 {% macro render_post(page, show_collection=false) %}
-<article class="section">
+<div class="section">
     {% if page.title %}
     <div class="section-title">
         {% if page.path != current_path %}
@@ -69,11 +69,11 @@
         {{ page.content | safe }}
         {% endif %}
     </div>
-</article>
+</div>
 {% endmacro %}
 
 {% macro render_list_navigator(paginator) %}
-<nav class="nav">
+<div class="nav">
     <div class="newer">
         {% if paginator.previous %}
         <a href="{{ paginator.previous | safe }}" title="Newer">↑ newer</a>
@@ -88,11 +88,11 @@
         ↓ older
         {% endif %}
     </div>
-</nav>
+</div>
 {% endmacro %}
 
 {% macro render_post_navigator(page) %}
-<nav class="nav">
+<div class="nav">
     <div class="newer">
         {% if page.lower %}
         <a href="{{ page.lower.permalink | safe }}" title="{{ page.lower.title }}">↑ newer</a>
@@ -107,5 +107,5 @@
         ↓ older
         {% endif %}
     </div>
-</nav>
+</div>
 {% endmacro %}
