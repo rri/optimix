@@ -561,7 +561,7 @@ img + em, video + em {
         flex-direction: column;
         row-gap: var(--spacing-md);
 
-        .section {
+        .article {
             border: var(--line-width) solid transparent;
             border-top-color: var(--line-color);
             display: flex;
@@ -570,7 +570,7 @@ img + em, video + em {
             padding: 0 var(--spacing-md);
             animation: fadeIn var(--animation-duration) ease-out;
 
-            .section-title {
+            .article-title {
                 font-family: var(--font-heading);
                 font-size: 1.5rem;
                 color: var(--fore-color);
@@ -586,7 +586,7 @@ img + em, video + em {
                 }
             }
 
-            .section-date {
+            .article-date {
                 display: flex;
                 flex-direction: column;
                 color: var(--muted-color);
@@ -594,7 +594,7 @@ img + em, video + em {
                 margin-bottom: var(--spacing-sm);
             }
 
-            .section-content {
+            .article-content {
                 -webkit-hyphens: auto;
                 hyphens: auto;
                 text-align: justify;
@@ -622,7 +622,7 @@ img + em, video + em {
                 }
             }
 
-            .section-tags {
+            .article-tags {
                 display: flex;
                 gap: var(--spacing-md);
                 font-size: 0.9em;
@@ -636,7 +636,7 @@ img + em, video + em {
                 }
             }
 
-            .section-authors {
+            .article-authors {
                 display: flex;
                 gap: var(--spacing-md);
                 font-size: 0.9em;
@@ -654,35 +654,6 @@ img + em, video + em {
                     }
                 }
             }
-
-            .section-form {
-                display: flex;
-                flex-direction: column;
-                row-gap: var(--spacing-lg);
-                align-items: stretch;
-                justify-content: center;
-                text-align: start;
-
-                .section-actions {
-                    display: flex;
-                    align-items: baseline;
-                    justify-content: center;
-                    gap: var(--spacing-md);
-
-                    .section-actions-spacer {
-                        flex: 1;
-                    }
-                }
-            }
-
-            blockquote,
-            article.section {
-                margin: 0;
-                border-top-color: transparent;
-                padding: var(--spacing-md) var(--spacing-lg);
-                border-left: calc(4 * var(--line-width)) solid var(--accent-color);
-                background-color: var(--highlight-color);
-            }
         }
 
         .summary {
@@ -695,45 +666,45 @@ img + em, video + em {
             justify-content: flex-end;
         }
 
-        .section-listing {
+        .collection-listing {
             column-width: 20em;
-        }
 
-        .collection-post-year {
-            border-bottom: var(--line-width) solid var(--line-color);
-            column-span: all;
-            padding-bottom: var(--spacing-sm);
-            transition: var(--transition);
+            .collection-year {
+                border-bottom: var(--line-width) solid var(--line-color);
+                column-span: all;
+                padding-bottom: var(--spacing-sm);
+                transition: var(--transition);
 
-            &:hover {
-                color: var(--link-color);
-            }
-        }
-
-        .collection-post-item {
-            display: flex;
-            align-items: baseline;
-            break-inside: avoid;
-            justify-content: stretch;
-            column-gap: var(--spacing-sm);
-            flex-wrap: nowrap;
-
-            .collection-post-date {
-                color: var(--muted-color);
-                font-size: 0.9em;
-                font-family: var(--font-mono);
-                flex-shrink: 0;
+                &:hover {
+                    color: var(--link-color);
+                }
             }
 
-            .collection-post-title {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                flex: 1;
-                min-width: 0;
+            .collection-item {
+                display: flex;
+                align-items: baseline;
+                break-inside: avoid;
+                justify-content: stretch;
+                column-gap: var(--spacing-sm);
+                flex-wrap: nowrap;
 
-                &::before {
-                    content: "→ ";
+                .collection-item-date {
+                    color: var(--muted-color);
+                    font-size: 0.9em;
+                    font-family: var(--font-mono);
+                    flex-shrink: 0;
+                }
+
+                .collection-item-title {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    flex: 1;
+                    min-width: 0;
+
+                    &::before {
+                        content: "→ ";
+                    }
                 }
             }
         }

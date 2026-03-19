@@ -1,7 +1,7 @@
 {% macro render_post(page, show_collection=false) %}
-<div class="section">
+<div class="article">
     {% if page.title %}
-    <div class="section-title">
+    <div class="article-title">
         {% if page.path != current_path %}
         <a href="{{ page.permalink | safe }}" title="{{ page.title }}">{{ page.title }}</a>
         {% else %}
@@ -12,7 +12,7 @@
     {% if not page.extra.hide_authors %}
     {% set authors = get_taxonomy(kind = "authors") %}
     {% if page.taxonomies.authors and authors | length > 0 %}
-    <div class="section-authors">
+    <div class="article-authors">
         {% for author in page.taxonomies.authors %}
         <span class="author"><a href="{{ get_taxonomy_url(kind = "authors", name = author) | safe }}" title="View all content authored by {{ author }}">{{ author }}</a></span>
         {% endfor %}
@@ -20,14 +20,14 @@
     {% endif %}
     {% endif %}
     {% if not page.extra.hide_date %}
-    <div class="section-date">
+    <div class="article-date">
         {{ page.date | date(format="%A, %B %e, %Y") }}
     </div>
     {% endif %}
     {% set tags = get_taxonomy(kind = "tags") %}
     {% set current_tags = page.taxonomies | get(key="tags", default=[]) %}
     {% if current_tags | length > 0 %}
-    <div class="section-tags">
+    <div class="article-tags">
         {% set tags_url = tags.permalink | safe %}
         <a class="tags-link" href="{{ tags_url | safe }}" title="View all tags">☁️</a>
         {% for tag in current_tags %}
@@ -35,20 +35,20 @@
         {% endfor %}
     </div>
     {% endif %}
-    <div class="section-content">
+    <div class="article-content">
         {% if show_collection %}
-        {% set section = get_section(path="posts/_index.md") %}
-        {% for year, pages in section.pages | group_by (attribute = "year") %}
-        <div class="section-listing">
-            <h2 class="collection-post-year">
+        {% set collection = get_section(path="posts/_index.md") %}
+        {% for year, pages in collection.pages | group_by (attribute = "year") %}
+        <div class="collection-listing">
+            <h2 class="collection-year">
                 {{ year }}
             </h2>
             {% for page in pages %}
-            <div class="collection-post-item">
-                <div class="collection-post-date">
+            <div class="collection-item">
+                <div class="collection-item-date">
                     {{ page.date | date(format="%Y-%m-%d") }}
                 </div>
-                <div class="collection-post-title">
+                <div class="collection-item-title">
                     <a href="{{ page.permalink | safe }}" title="{{ page.title }}">{{ page.title }}</a>
                 </div>
             </div>
