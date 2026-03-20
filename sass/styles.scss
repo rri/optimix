@@ -562,16 +562,16 @@ blockquote {
             padding: 0 var(--spacing-md);
             animation: fadeIn var(--animation-duration) ease-out;
 
+            .article {
+                border: none;
+            }
+
             .article-title {
                 font-family: var(--font-heading);
                 font-size: 1.5rem;
                 color: var(--fore-color);
                 transition: var(--transition);
                 margin: var(--spacing-md) 0 var(--spacing-sm) 0;
-
-                &:hover {
-                    color: var(--link-color);
-                }
 
                 a {
                     text-decoration: none;
