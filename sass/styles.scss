@@ -558,7 +558,6 @@ blockquote {
             border-top-color: var(--line-color);
             display: flex;
             flex-direction: column;
-            row-gap: var(--spacing-md);
             padding: 0 var(--spacing-md);
             animation: fadeIn var(--animation-duration) ease-out;
 
@@ -578,12 +577,27 @@ blockquote {
                 }
             }
 
+            .article-authors {
+                display: flex;
+                gap: var(--spacing-md);
+                font-size: 0.9em;
+
+                a {
+                    text-decoration: none;
+                }
+
+                .author {
+                    &:not(:last-of-type)::after {
+                        content: ";";
+                    }
+                }
+            }
+
             .article-date {
                 display: flex;
                 flex-direction: column;
                 color: var(--muted-color);
                 font-size: 0.9em;
-                margin-bottom: var(--spacing-sm);
             }
 
             .article-content {
@@ -625,25 +639,6 @@ blockquote {
 
                 .tag {
                     font-family: var(--font-mono);
-                }
-            }
-
-            .article-authors {
-                display: flex;
-                gap: var(--spacing-md);
-                font-size: 0.9em;
-
-                a {
-                    text-decoration: none;
-                }
-
-                .author {
-                    font-family: var(--font-italics);
-                    font-style: italic;
-
-                    &:not(:last-of-type)::after {
-                        content: ";";
-                    }
                 }
             }
         }
