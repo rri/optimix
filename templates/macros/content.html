@@ -1,4 +1,4 @@
-{% macro render_article(page, show_collection=false) %}
+{% macro render_article(page) %}
 <div class="article">
     {% if page.title %}
     <div class="article-title">
@@ -36,7 +36,44 @@
     </div>
     {% endif %}
     <div class="article-content">
-        {% if show_collection %}
+        {% if page.toc and page.extra.toc %}
+        <h1>On This Page...</h1>
+        <ul>
+            {% for h1 in page.toc %}
+            <li>
+                <a href="{{ h1.permalink | safe }}">{{ h1.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {{ page.content | safe }}
+    </div>
+</div>
+{% endmacro %}
+
+{% macro render_collection(page) %}
+<div class="article">
+    {% if page.title %}
+    <div class="article-title">
+        {% if page.path != current_path %}
+        <a href="{{ page.permalink | safe }}" title="{{ page.title }}">{{ page.title }}</a>
+        {% else %}
+        {{ page.title }}
+        {% endif %}
+    </div>
+    {% endif %}
+    {% set tags = get_taxonomy(kind = "tags") %}
+    {% set current_tags = page.taxonomies | get(key="tags", default=[]) %}
+    {% if current_tags | length > 0 %}
+    <div class="article-tags">
+        {% set tags_url = tags.permalink | safe %}
+        <a class="tags-link" href="{{ tags_url | safe }}" title="View all tags">☁️</a>
+        {% for tag in current_tags %}
+        <span class="tag"><a href="{{ get_taxonomy_url(kind = "tags", name = tag) | safe }}" title="View all content tagged as {{ tag }}">#{{ tag }}</a></span>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="article-content">
         {% set collection = get_section(path="posts/_index.md") %}
         {% for year, pages in collection.pages | group_by (attribute = "year") %}
         <div class="collection-listing">
@@ -55,19 +92,6 @@
             {% endfor %}
         </div>
         {% endfor %}
-        {% else %}
-        {% if page.toc and page.extra.toc %}
-        <h1>On This Page...</h1>
-        <ul>
-            {% for h1 in page.toc %}
-            <li>
-                <a href="{{ h1.permalink | safe }}">{{ h1.title }}</a>
-            </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {{ page.content | safe }}
-        {% endif %}
     </div>
 </div>
 {% endmacro %}
