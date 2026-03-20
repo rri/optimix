@@ -1,3 +1,5 @@
+{%- import "macros/content.html" as macro_content -%}
+
 <!DOCTYPE html>
 <html lang="en-US">
 
@@ -96,49 +98,7 @@
                 <div class="search-results-items"></div>
             </div>
         </div>
-        {% macro print_pinned(item) %}
-
-        {% if item.title %}
-        {% set title = item.title %}
-        {% else %}
-        {% set title = "" %}
-        {% endif %}
-
-        {% if item.href %}
-        {% set href = item.href %}
-        {% else %}
-        {% set href = "" %}
-        {% endif %}
-
-        {% if item.icon is defined %}
-        {% set icon = item.icon %}
-        {% else %}
-        {% set icon = "📌" %}
-        {% endif %}
-
-        {% if icon == "" %}
-        {% set content = title %}
-        {% else %}
-        {% set content = icon ~ " " ~ title %}
-        {% endif %}
-        <div class="toolbar-item">
-            <a href="{{ href }}" title="{{ title }}">
-                <span class="toolbar-item-content">{{ content }}</span>
-            </a>
-        </div>
-        {% endmacro print_pinned %}
-
-        {% set has_pinned_links = config.extra.pinned_links is defined and config.extra.pinned_links | length > 0 %}
-
-        {% if has_pinned_links %}
-        <div class="toolbar">
-            {% if config.extra.pinned_links is defined %}
-            {% for item in config.extra.pinned_links %}
-            {{ self::print_pinned(item=item) }}
-            {% endfor %}
-            {% endif %}
-        </div>
-        {% endif %}
+        {{ macro_content::render_toolbar(config=config) }}
         <div class="content">
             {% block content %}{% endblock %}
         </div>

@@ -13,7 +13,6 @@ taxonomies = [
     { name = "tags", paginate_by = 5, paginate_path = "pages", feed = true },
 ]
 
-
 [markdown]
 smart_punctuation = true
 external_links_class = "external-link"
@@ -37,7 +36,7 @@ logo = "optimix.logo.webp"
 background = "background.webp"
 background_header = "checkers.svg"
 pinned_links = [
-    { title = "Articles", href = "/pages/articles/", icon = "" },
-    { title = "Publications", href = "/pages/publications/", icon = "" },
-    { title = "Contact", href = "/pages/contact/", icon = "" }
+    { title = "Articles", href = "/pages/articles/", icon = "📜" },
+    { title = "Research", href = "/pages/research/", icon = "🧬" },
+    { title = "Personal", href = "/pages/personal/", icon = "✨" }
 ]

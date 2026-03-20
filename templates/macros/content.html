@@ -109,3 +109,21 @@
     </div>
 </div>
 {% endmacro %}
+
+{% macro render_toolbar(config) %}
+    {% set has_pinned_links = config.extra.pinned_links is defined and config.extra.pinned_links | length > 0 %}
+    {% if has_pinned_links %}
+    <div class="toolbar">
+        {% for item in config.extra.pinned_links %}
+        <div class="toolbar-item">
+            <a href="{{ item.href | default(value="") }}" title="{{ item.title | default(value="") }}">
+                <div class="toolbar-item-content">
+                    <div class="toolbar-item-icon">{{ item.icon | default(value="") }}</div>
+                    <div class="toolbar-item-text">{{ item.title | default(value="") }}</div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+{% endmacro %}

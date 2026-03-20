@@ -536,13 +536,20 @@ blockquote {
         border-top-color: var(--line-color);
         display: flex;
         font-family: var(--font-heading);
-        font-size: 0.9em;
+        font-size: max(1.2vw, 0.8em);
         justify-content: center;
         align-items: baseline;
         padding: var(--spacing-md);
 
         .toolbar-item {
             padding: var(--spacing-sm);
+
+            .toolbar-item-content {
+                align-items: baseline;
+                display: inline-flex;
+                gap: var(--spacing-md);
+                transition: var(--transition);
+            }
 
             a {
                 display: inline-flex;
