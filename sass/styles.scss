@@ -1,6 +1,6 @@
 @font-face {
-    font-family: "Roboto Slab";
-    src: url("/fonts/RobotoSlab.woff2") format('woff2');
+    font-family: "Merriweather";
+    src: url("/fonts/Merriweather-Regular.woff2") format('woff2');
     font-weight: 100 1000;
     font-stretch: 75% 200%;
     font-style: normal;
@@ -8,37 +8,13 @@
 }
 
 @font-face {
-    font-family: "Lora";
-    src: url("/fonts/Lora-Regular.woff2") format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Lora";
-    src: url("/fonts/Lora-Italic.woff2") format('woff2');
-    font-weight: 400;
+    font-family: "Merriweather";
+    src: url("/fonts/Merriweather-Italic.woff2") format('woff2');
+    font-weight: 100 1000;
+    font-stretch: 75% 200%;
     font-style: italic;
     font-display: swap;
 }
-
-@font-face {
-    font-family: "Lora";
-    src: url("/fonts/Lora-Bold.woff2") format('woff2');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Lora";
-    src: url("/fonts/Lora-BoldItalic.woff2") format('woff2');
-    font-weight: 700;
-    font-style: italic;
-    font-display: swap;
-}
-
 
 @font-face {
     font-family: "Nunito";
@@ -83,8 +59,8 @@
 :root {
     --min-page-width: 360px;
     --font-heading: "Nunito", sans-serif;
-    --font-content: "Roboto Slab", serif;
-    --font-italics: "Lora", serif;
+    --font-content: "Merriweather", serif;
+    --font-italics: "Merriweather", serif;
     --font-mono: "Fira Mono", monospace;
     --font-size-adjust: ex-height 0.53;
     --base-font-size: 16px;
@@ -398,6 +374,8 @@ blockquote {
     display: flex;
     flex-direction: column;
     font-family: var(--font-content);
+    letter-spacing: 0.03ch;
+    line-height: 1.8em;
     margin: auto;
     max-width: 800px;
     padding: 0 var(--spacing-xl);
