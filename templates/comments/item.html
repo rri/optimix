@@ -1,0 +1,8 @@
+{% import "macros/content.html" as macro_content %}
+
+{% extends "base.html" %}
+
+{% block content %}
+{{ macro_content::render_article(page=page) }}
+{% endblock %}
+
