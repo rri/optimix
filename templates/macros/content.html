@@ -1,5 +1,4 @@
-{% macro render_article(page) %}
-<div class="article">
+{% macro render_meta(page) %}
     {% if page.title %}
     <div class="article-title">
         {% if page.path != current_path %}
@@ -9,21 +8,28 @@
         {% endif %}
     </div>
     {% endif %}
-    {% if not page.extra.hide_authors %}
-    {% set authors = get_taxonomy(kind = "authors") %}
-    {% if page.taxonomies.authors and authors | length > 0 %}
-    <div class="article-authors">
-        {% for author in page.taxonomies.authors %}
-        <span class="author"><a href="{{ get_taxonomy_url(kind = "authors", name = author) | safe }}" title="View all content authored by {{ author }}">{{ author }}</a></span>
-        {% endfor %}
+
+    {% if not page.extra.hide_authors or not page.extra.hide_date %}
+    <div class="article-extra-meta">
+        {% if not page.extra.hide_authors %}
+        {% set authors = get_taxonomy(kind = "authors") %}
+        {% if page.taxonomies.authors and authors | length > 0 %}
+        <div class="article-authors">
+            {% for author in page.taxonomies.authors %}
+            <span class="author"><a href="{{ get_taxonomy_url(kind = "authors", name = author) | safe }}" title="View all content authored by {{ author }}">{{ author }}</a></span>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endif %}
+
+        {% if not page.extra.hide_date %}
+        <div class="article-date">
+            {{ page.date | date(format="%A, %B %e, %Y") }}
+        </div>
+        {% endif %}
     </div>
     {% endif %}
-    {% endif %}
-    {% if not page.extra.hide_date %}
-    <div class="article-date">
-        {{ page.date | date(format="%A, %B %e, %Y") }}
-    </div>
-    {% endif %}
+
     {% set tags = get_taxonomy(kind = "tags") %}
     {% set current_tags = page.taxonomies | get(key="tags", default=[]) %}
     {% if current_tags | length > 0 %}
@@ -35,6 +41,11 @@
         {% endfor %}
     </div>
     {% endif %}
+{% endmacro %}
+
+{% macro render_article(page) %}
+<div class="article">
+    {{ self::render_meta(page=page) }}
     <div class="article-content">
         {% if page.toc and page.extra.toc %}
         <h1>On This Page...</h1>
@@ -53,26 +64,7 @@
 
 {% macro render_collection(page) %}
 <div class="article">
-    {% if page.title %}
-    <div class="article-title">
-        {% if page.path != current_path %}
-        <a href="{{ page.permalink | safe }}" title="{{ page.title }}">{{ page.title }}</a>
-        {% else %}
-        {{ page.title }}
-        {% endif %}
-    </div>
-    {% endif %}
-    {% set tags = get_taxonomy(kind = "tags") %}
-    {% set current_tags = page.taxonomies | get(key="tags", default=[]) %}
-    {% if current_tags | length > 0 %}
-    <div class="article-tags">
-        {% set tags_url = tags.permalink | safe %}
-        <a class="tags-link" href="{{ tags_url | safe }}" title="View all tags">☁️</a>
-        {% for tag in current_tags %}
-        <span class="tag"><a href="{{ get_taxonomy_url(kind = "tags", name = tag) | safe }}" title="View all content tagged as {{ tag }}">#{{ tag }}</a></span>
-        {% endfor %}
-    </div>
-    {% endif %}
+    {{ self::render_meta(page=page) }}
     <div class="article-content">
         {% set collection = get_section(path="posts/_index.md") %}
         {% for year, pages in collection.pages | group_by (attribute = "year") %}
