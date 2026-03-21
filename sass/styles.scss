@@ -552,7 +552,7 @@ blockquote {
         flex-direction: column;
         row-gap: var(--spacing-md);
 
-        .article {
+        .item {
             border: var(--line-width) solid transparent;
             border-top-color: var(--line-color);
             display: flex;
@@ -560,11 +560,11 @@ blockquote {
             padding: 0 var(--spacing-md);
             animation: fadeIn var(--animation-duration) ease-out;
 
-            .article {
+            .item {
                 border: none;
             }
 
-            .article-title {
+            .item-title {
                 font-family: var(--font-heading);
                 font-size: 1.5rem;
                 color: var(--fore-color);
@@ -576,20 +576,20 @@ blockquote {
                 }
             }
 
-            .article-extra-meta {
+            .item-extra-meta {
                 margin: var(--spacing-md) 0;
                 padding: var(--spacing-md) var(--spacing-lg);
                 border-left: calc(4 * var(--line-width)) solid var(--accent-color);
                 background-color: var(--highlight-color);
             }
 
-            .article-authors,
-            .article-date {
+            .item-authors,
+            .item-date {
                 display: flex;
                 font-size: 0.9em;
             }
 
-            .article-authors {
+            .item-authors {
                 gap: var(--spacing-md);
 
                 a {
@@ -603,11 +603,11 @@ blockquote {
                 }
             }
 
-            .article-date {
+            .item-date {
                 color: var(--muted-color);
             }
 
-            .article-tags {
+            .item-tags {
                 display: flex;
                 gap: var(--spacing-md);
                 font-size: 0.9em;
@@ -621,7 +621,7 @@ blockquote {
                 }
             }
 
-            .article-content {
+            .item-content {
                 -webkit-hyphens: auto;
                 hyphens: auto;
                 text-align: justify;
@@ -660,10 +660,10 @@ blockquote {
             justify-content: flex-end;
         }
 
-        .collection-listing {
+        .index-listing {
             column-width: 20em;
 
-            .collection-year {
+            .index-year {
                 border-bottom: var(--line-width) solid var(--line-color);
                 column-span: all;
                 padding-bottom: var(--spacing-sm);
@@ -674,7 +674,7 @@ blockquote {
                 }
             }
 
-            .collection-item {
+            .index-item {
                 display: flex;
                 align-items: baseline;
                 break-inside: avoid;
@@ -682,14 +682,14 @@ blockquote {
                 column-gap: var(--spacing-sm);
                 flex-wrap: nowrap;
 
-                .collection-item-date {
+                .index-item-date {
                     color: var(--muted-color);
                     font-size: 0.9em;
                     font-family: var(--font-mono);
                     flex-shrink: 0;
                 }
 
-                .collection-item-title {
+                .index-item-title {
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;

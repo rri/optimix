@@ -1,6 +1,6 @@
 {% macro render_meta(page) %}
     {% if page.title %}
-    <div class="article-title">
+    <div class="item-title">
         {% if page.path != current_path %}
         <a href="{{ page.permalink | safe }}" title="{{ page.title }}">{{ page.title }}</a>
         {% else %}
@@ -10,11 +10,11 @@
     {% endif %}
 
     {% if not page.extra.hide_authors or not page.extra.hide_date %}
-    <div class="article-extra-meta">
+    <div class="item-extra-meta">
         {% if not page.extra.hide_authors %}
         {% set authors = get_taxonomy(kind = "authors") %}
         {% if page.taxonomies.authors and authors | length > 0 %}
-        <div class="article-authors">
+        <div class="item-authors">
             {% for author in page.taxonomies.authors %}
             <span class="author"><a href="{{ get_taxonomy_url(kind = "authors", name = author) | safe }}" title="View all content authored by {{ author }}">{{ author }}</a></span>
             {% endfor %}
@@ -23,7 +23,7 @@
         {% endif %}
 
         {% if not page.extra.hide_date %}
-        <div class="article-date">
+        <div class="item-date">
             {{ page.date | date(format="%A, %B %e, %Y") }}
         </div>
         {% endif %}
@@ -33,7 +33,7 @@
     {% set tags = get_taxonomy(kind = "tags") %}
     {% set current_tags = page.taxonomies | get(key="tags", default=[]) %}
     {% if current_tags | length > 0 %}
-    <div class="article-tags">
+    <div class="item-tags">
         {% set tags_url = tags.permalink | safe %}
         <a class="tags-link" href="{{ tags_url | safe }}" title="View all tags">☁️</a>
         {% for tag in current_tags %}
@@ -43,10 +43,10 @@
     {% endif %}
 {% endmacro %}
 
-{% macro render_article(page) %}
-<div class="article">
+{% macro render_item(page) %}
+<div class="item">
     {{ self::render_meta(page=page) }}
-    <div class="article-content">
+    <div class="item-content">
         {% if page.toc and page.extra.toc %}
         <h1>On This Page...</h1>
         <ul>
@@ -62,22 +62,22 @@
 </div>
 {% endmacro %}
 
-{% macro render_collection(page) %}
-<div class="article">
+{% macro render_index(page) %}
+<div class="item">
     {{ self::render_meta(page=page) }}
-    <div class="article-content">
-        {% set collection = get_section(path="posts/_index.md") %}
-        {% for year, pages in collection.pages | group_by (attribute = "year") %}
-        <div class="collection-listing">
-            <h2 class="collection-year">
+    <div class="item-content">
+        {% set index = get_section(path="posts/_index.md") %}
+        {% for year, pages in index.pages | group_by (attribute = "year") %}
+        <div class="index-listing">
+            <h2 class="index-year">
                 {{ year }}
             </h2>
             {% for page in pages %}
-            <div class="collection-item">
-                <div class="collection-item-date">
+            <div class="index-item">
+                <div class="index-item-date">
                     {{ page.date | date(format="%Y-%m-%d") }}
                 </div>
-                <div class="collection-item-title">
+                <div class="index-item-title">
                     <a href="{{ page.permalink | safe }}" title="{{ page.title }}">{{ page.title }}</a>
                 </div>
             </div>
@@ -88,7 +88,7 @@
 </div>
 {% endmacro %}
 
-{% macro render_collection_navigator(paginator) %}
+{% macro render_index_navigator(paginator) %}
 <div class="nav">
     <div class="newer">
         {% if paginator.previous %}
@@ -107,7 +107,7 @@
 </div>
 {% endmacro %}
 
-{% macro render_article_navigator(page) %}
+{% macro render_item_navigator(page) %}
 <div class="nav">
     <div class="newer">
         {% if page.lower %}

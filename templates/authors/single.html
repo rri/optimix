@@ -7,8 +7,8 @@
     <span class="author">{{ term.name }}</span>
 </div>
 {% for page in paginator.pages %}
-{{ macro_content::render_article(page=page) }}
+{{ macro_content::render_item(page=page) }}
 {% endfor %}
-{{ macro_content::render_collection_navigator(paginator=paginator) }}
+{{ macro_content::render_index_navigator(paginator=paginator) }}
 {% endblock %}
 

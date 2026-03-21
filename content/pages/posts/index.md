@@ -1,5 +1,5 @@
 +++
-title = "Articles"
+title = "Posts"
 date = "2026-03-16"
 template = "posts/index/by_date.html"
 [taxonomies]
