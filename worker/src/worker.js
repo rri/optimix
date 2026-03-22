@@ -3,6 +3,7 @@
 // - BOT        e.g., optimix-comment-bot
 // - REPO       e.g., rri/optimix
 // - REVIEWER   e.g., rri
+//
 // Required secrets:
 // - AKISMET_KEY (API key from Akismet)
 // - GITHUB_PAT (Personal Access Token from GitHub)
