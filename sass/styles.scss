@@ -361,13 +361,6 @@ img + em, video + em {
     }
 }
 
-blockquote {
-    margin: 0;
-    padding: var(--spacing-md) var(--spacing-lg);
-    border-left: calc(4 * var(--line-width)) solid var(--accent-color);
-    background-color: var(--highlight-color);
-}
-
 #main {
     background-color: var(--back-color);
     display: flex;
@@ -550,7 +543,6 @@ blockquote {
     .content {
         display: flex;
         flex-direction: column;
-        row-gap: var(--spacing-md);
 
         .item {
             border: var(--line-width) solid transparent;
@@ -560,30 +552,38 @@ blockquote {
             padding: 0 var(--spacing-md);
             animation: fadeIn var(--animation-duration) ease-out;
 
-            .item {
-                border: none;
+            .item,
+            blockquote {
+                margin: 0;
+                padding: var(--spacing-md) var(--spacing-lg);
+                border-left: calc(4 * var(--line-width)) solid var(--accent-color);
+                background-color: var(--highlight-color);
             }
 
             .item-title {
+                border: var(--line-width) solid transparent;
+                border-bottom-color: var(--line-color);
                 font-family: var(--font-heading);
                 font-size: 1.5rem;
                 color: var(--fore-color);
                 transition: var(--transition);
                 margin: var(--spacing-md) 0 var(--spacing-sm) 0;
+                padding: 0 0 var(--spacing-md) 0;
 
                 a {
                     text-decoration: none;
                 }
             }
 
-            .item-extra-meta {
-                margin: var(--spacing-md) 0;
-                padding: var(--spacing-md) var(--spacing-lg);
-                border-left: calc(4 * var(--line-width)) solid var(--accent-color);
-                background-color: var(--highlight-color);
+            .item-comment-list {
+                display: flex;
+                flex-direction: column;
+                gap: var(--spacing-md);
+                padding: var(--spacing-md) 0;
             }
 
             .item-authors,
+            .item-comment-count,
             .item-date {
                 display: flex;
                 font-size: 0.9em;
@@ -607,10 +607,36 @@ blockquote {
                 color: var(--muted-color);
             }
 
+            .item-comment-count {
+                a {
+                    text-decoration: none;
+                }
+            }
+
+            .item-comment-form {
+                display: flex;
+                flex-direction: column;
+                gap: var(--spacing-md);
+                align-items: stretch;
+                justify-content: center;
+                text-align: start;
+
+                .item-comment-form-actions {
+                    display: flex;
+                    align-items: baseline;
+                    gap: var(--spacing-md);
+
+                    .item-comment-form-actions-spacer {
+                        flex: 1;
+                    }
+                }
+            }
+
             .item-tags {
                 display: flex;
                 gap: var(--spacing-md);
                 font-size: 0.9em;
+                margin: var(--spacing-md) 0 0 0;
 
                 a {
                     text-decoration: none;
@@ -710,10 +736,6 @@ blockquote {
             padding: var(--spacing-md);
             color: var(--fore-color);
             transition: var(--transition);
-
-            &:hover {
-                color: var(--link-color);
-            }
         }
 
         .rule {
@@ -885,7 +907,6 @@ blockquote {
     .footer {
         border: var(--line-width) solid transparent;
         border-top-color: var(--line-color);
-        margin: var(--spacing-md);
         padding: var(--spacing-md);
         text-align: center;
     }

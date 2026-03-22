@@ -1,4 +1,4 @@
-{% macro render_meta(page) %}
+{% macro render_meta(page, comments) %}
     {% if page.title %}
     <div class="item-title">
         {% if page.path != current_path %}
@@ -9,7 +9,7 @@
     </div>
     {% endif %}
 
-    {% if not page.extra.hide_authors or not page.extra.hide_date %}
+    {% if not page.extra.hide_authors or not page.extra.hide_date or page.extra.allow_comments %}
     <div class="item-extra-meta">
         {% if not page.extra.hide_authors %}
         {% set authors = get_taxonomy(kind = "authors") %}
@@ -25,6 +25,12 @@
         {% if not page.extra.hide_date %}
         <div class="item-date">
             {{ page.date | date(format="%A, %B %e, %Y") }}
+        </div>
+        {% endif %}
+
+        {% if page.extra.allow_comments %}
+        <div class="item-comment-count">
+            <a href="{{ page.permalink | safe }}#comments" title="{{ page.title }}">{{ comments | length }} comment{{ comments | length | pluralize }}</a>
         </div>
         {% endif %}
     </div>
@@ -43,28 +49,50 @@
     {% endif %}
 {% endmacro %}
 
-{% macro render_item(page) %}
+{% macro render_item(page, show_comments=false) %}
 <div class="item">
-    {{ self::render_meta(page=page) }}
-    <div class="item-content">
-        {% if page.toc and page.extra.toc %}
-        <h1>On This Page...</h1>
-        <ul>
-            {% for h1 in page.toc %}
-            <li>
-                <a href="{{ h1.permalink | safe }}">{{ h1.title }}</a>
-            </li>
-            {% endfor %}
-        </ul>
+    {% set_global comments = [] %}
+    {% set all_comments = get_section(path="comments/_index.md") %}
+    {% for comment in all_comments.pages | reverse %}
+        {% if comment.extra.parent %}
+        {% if comment.extra.parent | trim_end_matches(pat="/") == page.path | trim_end_matches(pat="/") %}
+        {% set_global comments = comments | concat(with=comment) %}
         {% endif %}
-        {{ page.content | safe }}
+        {% endif %}
+    {% endfor %}
+    {{ self::render_meta(page=page, comments=comments) }}
+    <div class="item-content">{{ page.content | safe }}</div>
+    {% if show_comments %}
+    <div id="comments" class="item-title">Reply</div>
+    <form class="item-comment-form">
+        <input name="name" type="text" placeholder="Your name...">
+        <textarea name="comment" placeholder="Your comment..."></textarea>
+        <div class="item-comment-form-actions">
+            <div class="item-comment-form-actions-spacer"></div>
+            <button type="reset">Clear</button>
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+    {% if comments | length > 0 %}
+    <div class="item-title">Reader Comments</div>
+    {% endif %}
+    <div class="item-comment-list">
+        {% for comment in comments %}
+        <div class="item-comment">
+            <div class="item">
+                {{ self::render_meta(page=comment, comments=[]) }}
+                <div class="item-content">{{ comment.content | safe }}</div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
+    {% endif %}
 </div>
 {% endmacro %}
 
 {% macro render_index(page) %}
 <div class="item">
-    {{ self::render_meta(page=page) }}
+    {{ self::render_meta(page=page, comments=[]) }}
     <div class="item-content">
         {% set index = get_section(path="posts/_index.md") %}
         {% for year, pages in index.pages | group_by (attribute = "year") %}
@@ -134,8 +162,12 @@
         <div class="toolbar-item">
             <a href="{{ item.href | default(value="") }}" title="{{ item.title | default(value="") }}">
                 <div class="toolbar-item-content">
-                    <div class="toolbar-item-icon">{{ item.icon | default(value="") }}</div>
-                    <div class="toolbar-item-text">{{ item.title | default(value="") }}</div>
+                    {% if item.icon %}
+                    <div class="toolbar-item-icon">{{ item.icon }}</div>
+                    {% endif %}
+                    {% if item.title %}
+                    <div class="toolbar-item-text">{{ item.title }}</div>
+                    {% endif %}
                 </div>
             </a>
         </div>

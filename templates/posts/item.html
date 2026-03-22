@@ -3,6 +3,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-{{ macro_content::render_item(page=page) }}
+{{ macro_content::render_item(page=page, show_comments=true) }}
 {{ macro_content::render_item_navigator(page=page) }}
 {% endblock %}
