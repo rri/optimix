@@ -65,6 +65,9 @@
     {% if show_comments and page.extra.allow_comments %}
     <div id="comments" class="item-title">Reply</div>
     <form class="item-comment-form">
+        <div style="position: absolute; left: -9999px" aria-hidden="true">
+            <input type="text" name="website" tabindex="-1" autocomplete="off">
+        </div>
         <input name="name" type="text" placeholder="Your name...">
         <textarea name="comment" placeholder="Your comment..."></textarea>
         <div class="item-comment-form-actions">
