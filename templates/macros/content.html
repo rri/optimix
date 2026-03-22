@@ -62,7 +62,7 @@
     {% endfor %}
     {{ self::render_meta(page=page, comments=comments) }}
     <div class="item-content">{{ page.content | safe }}</div>
-    {% if show_comments %}
+    {% if show_comments and page.extra.allow_comments %}
     <div id="comments" class="item-title">Reply</div>
     <form class="item-comment-form">
         <input name="name" type="text" placeholder="Your name...">
