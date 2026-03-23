@@ -9,27 +9,28 @@
 // - GITHUB_PAT (Personal Access Token from GitHub)
 export default {
   async fetch(request, env) {
-    if (request.method === "OPTIONS") return corsResponse(env, 204);
-    if (request.method !== "POST") return corsResponse(env, 405, { error: "Method not allowed" });
+    const origin = request.headers.get("Origin") || "";
+    if (request.method === "OPTIONS") return corsResponse(env, 204, origin);
+    if (request.method !== "POST") return corsResponse(env, 405, origin, { error: "Method not allowed" });
     // Rate limit by IP.
     const ip = request.headers.get("CF-Connecting-IP");
     const { success } = await env.RATE_LIMIT.limit({ key: ip });
     if (!success) {
-      return corsResponse(env, 429, { error: "Too many comment. Try again after a few minutes." });
+      return corsResponse(env, 429, origin, { error: "Too many comment. Try again after a few minutes." });
     }
     let body;
     try {
       body = await request.json();
     } catch {
-      return corsResponse(env, 400, { error: "Invalid JSON" });
+      return corsResponse(env, 400, origin, { error: "Invalid JSON" });
     }
     const { name, comment, parent } = body;
     if (!name?.trim() || !comment?.trim() || !parent?.trim()) {
-      return corsResponse(env, 400, { error: "Missing required fields" });
+      return corsResponse(env, 400, origin, { error: "Missing required fields" });
     }
     // Honeypot: silently accept but do nothing.
     if (body.website) {
-      return corsResponse(env, 200, { message: "Comment submitted for approval." });
+      return corsResponse(env, 200, origin, { message: "Comment submitted for approval." });
     }
     try {
       // Akismet spam check.
@@ -41,14 +42,14 @@ export default {
       });
       // Blatant spam: silently drop.
       if (spam.blatant) {
-        return corsResponse(env, 200, { message: "Comment submitted for approval." });
+        return corsResponse(env, 200, origin, { message: "Comment submitted for approval." });
       }
       // Create the PR (tagged if likely spam).
       const pr = await createCommentPR(env, name.trim(), comment.trim(), parent.trim(), spam.isSpam);
-      return corsResponse(env, 200, { message: "Comment submitted for approval.", prNumber: pr.number });
+      return corsResponse(env, 200, origin, { message: "Comment submitted for approval.", prNumber: pr.number });
     } catch (err) {
       console.error(err);
-      return corsResponse(env, 500, { error: "Failed to submit comment." });
+      return corsResponse(env, 500, origin, { error: "Failed to submit comment." });
     }
   }
 }
@@ -152,14 +153,20 @@ async function gh(env, method, path, body) {
 }
 
 // CORS.
-function corsResponse(env, status, body) {
+function corsResponse(env, status, origin, body) {
+  const allowedOrigins = [`${env.BLOG}`, "http://127.0.0.1:1111"];
+  const headers = {
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Content-Type": "application/json",
+  };
+
+  if (allowedOrigins.includes(origin)) {
+    headers["Access-Control-Allow-Origin"] = origin;
+  }
+
   return new Response(body ? JSON.stringify(body) : null, {
     status,
-    headers: {
-      "Access-Control-Allow-Origin": `${env.BLOG}`,
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-      "Content-Type": "application/json",
-    },
+    headers
   });
 }
