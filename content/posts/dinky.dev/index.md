@@ -4,6 +4,8 @@ date = 2026-03-17T00:00:00-07:00
 [taxonomies]
 authors = ["Ramnath R Iyer"]
 tags = ["tasks", "notes", "books"]
+[extra]
+allow_comments = true
 +++
 
 [dinky.dev](https://dinky.dev) is a web application designed to act as a combination of task list,
