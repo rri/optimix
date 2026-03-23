@@ -2,7 +2,16 @@ name = "comments"
 main = "src/worker.js"
 compatibility_date = "2024-01-01"
 keep_vars = true
+
 [observability]
 [observability.logs]
 enabled = true
 invocation_logs = true
+
+[[ratelimits]]
+name = "RATE_LIMIT"
+namespace_id = "1"
+
+[ratelimits.simple]
+limit = 1
+period = 10
