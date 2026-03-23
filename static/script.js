@@ -239,6 +239,10 @@ function initComments() {
     var loaded = Date.now();
     var commentForm = document.getElementById(commentFormId);
 
+    if (commentForm === null) {
+        return;
+    }
+
     const title = commentForm.dataset.title;
     const parent = commentForm.dataset.parent;
 
