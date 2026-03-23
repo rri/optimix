@@ -10,47 +10,52 @@
 export default {
   async fetch(request, env) {
     const origin = request.headers.get("Origin") || "";
-    if (request.method === "OPTIONS") return corsResponse(env, 204, origin);
-    if (request.method !== "POST") return corsResponse(env, 405, origin, { error: "Method not allowed" });
-    // Rate limit by IP.
-    const ip = request.headers.get("CF-Connecting-IP");
-    const { success } = await env.RATE_LIMIT.limit({ key: ip });
-    if (!success) {
-      return corsResponse(env, 429, origin, { error: "Too many comment. Try again after a few minutes." });
-    }
-    let body;
     try {
-      body = await request.json();
-    } catch {
-      return corsResponse(env, 400, origin, { error: "Invalid JSON" });
-    }
-    const { name, comment, parent } = body;
-    if (!name?.trim() || !comment?.trim() || !parent?.trim()) {
-      return corsResponse(env, 400, origin, { error: "Missing required fields" });
-    }
-    // Honeypot: silently accept but do nothing.
-    if (body.website) {
-      return corsResponse(env, 200, origin, { message: "Comment submitted for approval." });
-    }
-    try {
-      // Akismet spam check.
-      const spam = await checkSpam(env, {
-        name: name.trim(),
-        comment: comment.trim(),
-        ip,
-        userAgent: request.headers.get("User-Agent") || "",
-      });
-      // Blatant spam: silently drop.
-      if (spam.blatant) {
+      if (request.method === "OPTIONS") return corsResponse(env, 204, origin);
+      if (request.method !== "POST") return corsResponse(env, 405, origin, { error: "Method not allowed" });
+      // Rate limit by IP.
+      const ip = request.headers.get("CF-Connecting-IP");
+      const { success } = await env.RATE_LIMIT.limit({ key: ip });
+      if (!success) {
+        return corsResponse(env, 429, origin, { error: "Too many comments. Try again after a few minutes." });
+      }
+      let body;
+      try {
+        body = await request.json();
+      } catch {
+        return corsResponse(env, 400, origin, { error: "Invalid JSON" });
+      }
+      const { name, comment, parent } = body;
+      if (!name?.trim() || !comment?.trim() || !parent?.trim()) {
+        return corsResponse(env, 400, origin, { error: "Missing required fields" });
+      }
+      // Honeypot: silently accept but do nothing.
+      if (body.website) {
         return corsResponse(env, 200, origin, { message: "Comment submitted for approval." });
       }
-      // Create the PR (tagged if likely spam).
-      const pr = await createCommentPR(env, name.trim(), comment.trim(), parent.trim(), spam.isSpam);
-      return corsResponse(env, 200, origin, { message: "Comment submitted for approval.", prNumber: pr.number });
-    } catch (err) {
-      console.error(err);
-      return corsResponse(env, 500, origin, { error: "Failed to submit comment." });
+      try {
+        // Akismet spam check.
+        const spam = await checkSpam(env, {
+          name: name.trim(),
+          comment: comment.trim(),
+          ip,
+          userAgent: request.headers.get("User-Agent") || "",
+        });
+        // Blatant spam: silently drop.
+        if (spam.blatant) {
+          return corsResponse(env, 200, origin, { message: "Comment submitted for approval." });
+        }
+        // Create the PR (tagged if likely spam).
+        const pr = await createCommentPR(env, name.trim(), comment.trim(), parent.trim(), spam.isSpam);
+        return corsResponse(env, 200, origin, { message: "Comment submitted for approval.", prNumber: pr.number });
+      } catch (err) {
+        console.error(err);
+        return corsResponse(env, 500, origin, { error: "Failed to submit comment." });
+      }
     }
+  } catch (err) {
+      console.err("Unhandled error:", err);
+      return corsResponse(env, 500, origin, { error: "Server error." });
   }
 }
 
