@@ -25,7 +25,7 @@ export default {
       } catch {
         return corsResponse(env, 400, origin, { error: "Invalid JSON" });
       }
-      const { name, comment, parent } = body;
+      const { title, name, comment, parent } = body;
       if (!name?.trim() || !comment?.trim() || !parent?.trim()) {
         return corsResponse(env, 400, origin, { error: "Missing required fields" });
       }
@@ -46,16 +46,16 @@ export default {
           return corsResponse(env, 200, origin, { message: "Comment submitted for approval." });
         }
         // Create the PR (tagged if likely spam).
-        const pr = await createCommentPR(env, name.trim(), comment.trim(), parent.trim(), spam.isSpam);
+        const pr = await createCommentPR(env, title?.trim() || parent.trim(), name.trim(), comment.trim(), parent.trim(), spam.isSpam);
         return corsResponse(env, 200, origin, { message: "Comment submitted for approval.", prNumber: pr.number });
       } catch (err) {
         console.error(err);
         return corsResponse(env, 500, origin, { error: "Failed to submit comment." });
       }
+    } catch (err) {
+        console.err("Unhandled error:", err);
+        return corsResponse(env, 500, origin, { error: "Server error." });
     }
-  } catch (err) {
-      console.err("Unhandled error:", err);
-      return corsResponse(env, 500, origin, { error: "Server error." });
   }
 }
 
@@ -79,7 +79,7 @@ async function checkSpam(env, { name, comment, ip, userAgent }) {
 }
 
 // GitHub PR creation.
-async function createCommentPR(env, name, comment, parent, isSpam) {
+async function createCommentPR(env, title, name, comment, parent, isSpam) {
   const ts = Date.now();
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 30);
   const branchName = `comment/${ts}-${slug}`;
@@ -99,7 +99,7 @@ async function createCommentPR(env, name, comment, parent, isSpam) {
   const filePath = `content/comments/${ts}-${slug}.md`;
   const fileContent = [
     `+++`,
-    `title = "Re: ${parent}"`,
+    `title = "Re: ${title}"`,
     `date = ${date}`,
     `[taxonomies]`,
     `authors = ["${name}"]`,
@@ -113,7 +113,7 @@ async function createCommentPR(env, name, comment, parent, isSpam) {
   ].join("\n");
 
   await gh(env, "PUT", `/repos/${env.REPO}/contents/${filePath}`, {
-    message: `Comment by ${name} on ${parent}`,
+    message: `Comment by ${name} on ${title}`,
     content: btoa(unescape(encodeURIComponent(fileContent))),
     branch: branchName,
   });
@@ -121,10 +121,10 @@ async function createCommentPR(env, name, comment, parent, isSpam) {
   // Open PR.
   const spamLabel = isSpam ? "⚠️ SPAM — " : "";
   const pr = await gh(env, "POST", `/repos/${env.REPO}/pulls`, {
-    title: `${spamLabel}Comment by ${name} on ${parent}`,
+    title: `${spamLabel}Comment by ${name} on ${title}`,
     head: branchName,
     base: "master",
-    body: `**Author:** ${name}\n**Post:** ${parent}\n**Spam:** ${isSpam ? "likely" : "no"}\n\n---\n\n${comment}`,
+    body: `**Author:** ${name}\n**Post:** ${title}\n**Spam:** ${isSpam ? "likely" : "no"}\n\n---\n\n${comment}`,
   });
 
   // Request review from repo owner.

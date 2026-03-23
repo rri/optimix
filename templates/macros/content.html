@@ -63,14 +63,15 @@
     {{ self::render_meta(page=page, comments=comments) }}
     <div class="item-content">{{ page.content | safe }}</div>
     {% if show_comments and page.extra.allow_comments %}
-    <div id="comments" class="item-title">Reply</div>
-    <form class="item-comment-form">
+    <div id="comments" class="item-title noscript">Reply</div>
+    <form id="item-comment-form" class="item-comment-form noscript" data-parent="{{ page.path }}" data-title="{{ page.title}}">
         <div style="position: absolute; left: -9999px" aria-hidden="true">
             <input type="text" name="website" tabindex="-1" autocomplete="off">
         </div>
         <input name="name" type="text" placeholder="Your name...">
         <textarea name="comment" placeholder="Your comment..."></textarea>
         <div class="item-comment-form-actions">
+            <div id="item-comment-form-message" class="item-comment-form-message"></div>
             <div class="item-comment-form-actions-spacer"></div>
             <button type="reset">Clear</button>
             <button type="submit">Submit</button>

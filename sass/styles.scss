@@ -626,6 +626,10 @@ img + em, video + em {
                     align-items: baseline;
                     gap: var(--spacing-md);
 
+                    .item-comment-form-message {
+                        font-weight: bold;
+                    }
+
                     .item-comment-form-actions-spacer {
                         flex: 1;
                     }

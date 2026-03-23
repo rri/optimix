@@ -3,9 +3,11 @@ if (document.readyState === "complete" ||
 ) {
     initScript();
     initSearch();
+    initComments();
 } else {
     document.addEventListener("DOMContentLoaded", initScript);
     document.addEventListener("DOMContentLoaded", initSearch);
+    document.addEventListener("DOMContentLoaded", initComments);
 }
 
 function initScript() {
@@ -216,4 +218,72 @@ function formatSearchResultItem(item, terms) {
          + `<div class="${classSearchResultsItemTitle}"><a href="${item.ref}">${heading}</a></div>`
          + `<div class="${classSearchResultsItemSnippet}">${makeTeaser(item.doc.body, terms)}</div>`
          + '</div>';
+}
+
+function initComments() {
+    const commentAPI = "https://comments.optimix.workers.dev";
+    const commentFormId = "item-comment-form";
+    const commentFormWebsiteQuery = '[name="website"]';
+    const commentFormMessageQuery = "#item-comment-form-message";
+    const commentFormNameQuery = '[name="name"]';
+    const commentFormCommentQuery = '[name="comment"]';
+
+    function showMessage(txt, timeout) {
+        const element = commentForm.querySelector(commentFormMessageQuery);
+        element.innerText = txt;
+        if (timeout) {
+            setTimeout(() => element.innerText = "", timeout);
+        }
+    }
+
+    var loaded = Date.now();
+    var commentForm = document.getElementById(commentFormId);
+
+    const title = commentForm.dataset.title;
+    const parent = commentForm.dataset.parent;
+
+    commentForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        if (commentForm.querySelector(commentFormWebsiteQuery).value) return;
+
+        if (Date.now() - loaded < 4000) {
+            showMessage("Bot check: wait a few seconds and try again...", 3000);
+            return;
+        }
+
+        const name = commentForm.querySelector(commentFormNameQuery).value.trim();
+        const comment = commentForm.querySelector(commentFormCommentQuery).value.trim();
+
+        if (!name) {
+            showMessage("Required field (name) missing!", 3000)
+            return
+        }
+
+        if (!comment) {
+            showMessage("Required field (comment) missing!", 3000)
+            return
+        }
+
+        showMessage("Submitting...");
+
+        try {
+            const res = await fetch(commentAPI, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ title, name, comment, parent }),
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                showMessage("Comment submitted and pending approval!");
+                commentForm.reset();
+            } else {
+                showMessage(data.error || "Unknown error occurred!");
+            }
+        } catch {
+            showMessage("Network error. Please try again...", 3000);
+        }
+    });
 }
