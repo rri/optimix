@@ -560,6 +560,12 @@ img + em, video + em {
                 background-color: var(--highlight-color);
             }
 
+            .item {
+                .item-title {
+                    font-size: 1.2rem;
+                }
+            }
+
             .item-title {
                 border: var(--line-width) solid transparent;
                 border-bottom-color: var(--line-color);
