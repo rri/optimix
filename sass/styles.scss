@@ -634,6 +634,9 @@ img + em, video + em {
 
                     .item-comment-form-message {
                         font-weight: bold;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
                     }
 
                     .item-comment-form-actions-spacer {
