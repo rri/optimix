@@ -779,14 +779,6 @@ img + em, video + em {
             }
         }
 
-        .footnote {
-            font-size: 0.8em;
-
-            &::before {
-                content: "† ";
-            }
-        }
-
         .tag-cloud {
             list-style: none;
             margin: var(--spacing-lg) auto;
@@ -816,7 +808,8 @@ img + em, video + em {
         }
 
         .footnote-definition {
-            font-size: smaller;
+            margin: var(--spacing-lg) 0;
+
             p {
                 display: inline;
                 margin: 0 var(--spacing-md);
