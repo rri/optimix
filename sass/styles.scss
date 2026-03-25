@@ -639,10 +639,14 @@ img + em, video + em {
             .item-comment-form {
                 display: flex;
                 flex-direction: column;
-                gap: var(--spacing-md);
+                gap: var(--spacing-lg);
                 align-items: stretch;
                 justify-content: center;
                 text-align: start;
+                background-color: var(--note-back-color);
+                border-radius: calc(var(--border-radius) * 2);
+                padding: var(--spacing-lg);
+                margin: var(--spacing-md) 0;
 
                 .item-comment-form-actions {
                     display: flex;
