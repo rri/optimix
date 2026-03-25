@@ -353,6 +353,12 @@ em {
     font-family: var(--font-italics);
 }
 
+hr {
+    border: none;
+    border-top: var(--line-width) solid var(--line-color);
+    margin: var(--spacing-xl) 0;
+}
+
 img, video {
     display: block;
     margin: auto;
