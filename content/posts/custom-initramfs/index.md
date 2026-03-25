@@ -31,7 +31,6 @@ Tools like [dracut](https://wiki.archlinux.org/title/Dracut) can help you create
 the results tend to be ugly and bloated as they cater to the common denominator. To avoid this, I
 decided to create my own *initramfs*. This turned out to be a rather simple process.
 
-
 Conceptually, there are two parts to it. First, we need an [init
 script](https://github.com/rri/initramfs/blob/main/etc/kernel/init.script) that acts as the entry
 point and executes during the early boot process. Second, we need a [build
@@ -71,4 +70,4 @@ drivers for display, disk and other essential components are built into the kern
 [^1]: Technically, I could use the GRUB bootloader to decrypt the disk for me before executing the
     kernel, but [until the recent version
     2.14](https://9to5linux.com/grub-2-14-released-with-erofs-argon2-kdf-and-shim-loader-protocol-support),
-    GRUB did not support the fast and modern Argon2 key derivation function.)
+    GRUB did not support the fast and modern Argon2 key derivation function.
