@@ -926,7 +926,9 @@ img + em, video + em {
     .footer {
         border: var(--line-width) solid transparent;
         border-top-color: var(--line-color);
-        padding: var(--spacing-md);
+        color: var(--muted-color);
+        font-size: 0.85em;
+        padding: var(--spacing-xl) var(--spacing-md);
         text-align: center;
     }
 }
