@@ -823,7 +823,13 @@ img + em, video + em {
         }
 
         .footnote-definition {
+            font-size: 0.9em;
+            color: var(--muted-color);
+            background-color: var(--note-back-color);
+            border-left: 3px solid var(--line-color);
+            border-radius: var(--border-radius);
             margin: var(--spacing-lg) 0;
+            padding: var(--spacing-md) var(--spacing-lg);
 
             p {
                 display: inline;
