@@ -35,6 +35,8 @@ copyright_info = "Ramnath R Iyer"
 logo = "optimix.logo.webp"
 background = "background.webp"
 background_header = "checkers.svg"
+allow_invert_icon = false
+allow_invert_logo = false
 pinned_links = [
     { title = "Posts", href = "/pages/posts/", icon = "📜" },
     { title = "Research", href = "/pages/research/", icon = "🧬" },
