@@ -388,8 +388,8 @@ img + em, video + em {
     padding: 0 var(--spacing-xl);
 
     .header-spacer {
-        background: linear-gradient(0deg, black 0%, gray 50%, black 100%);
-        height: var(--spacing-lg);
+        background: linear-gradient(0deg, var(--line-color) 0%, transparent 100%);
+        height: var(--spacing-md);
     }
 
     .header {
