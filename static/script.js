@@ -221,7 +221,8 @@ function formatSearchResultItem(item, terms) {
 }
 
 function initComments() {
-    const commentAPI = "https://comments.optimix.workers.dev";
+    const commentAPI = typeof COMMENT_API !== "undefined" ? COMMENT_API : null;
+    if (!commentAPI) return;
     const commentFormId = "item-comment-form";
     const commentFormWebsiteQuery = '[name="website"]';
     const commentFormMessageQuery = "#item-comment-form-message";

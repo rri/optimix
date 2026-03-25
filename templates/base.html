@@ -106,6 +106,9 @@
             &#169; {{ config.extra.copyright_info }}
         </div>
     </section>
+    {% if config.extra.comment_api %}
+    <script type="text/javascript">const COMMENT_API = "{{ config.extra.comment_api }}";</script>
+    {% endif %}
     <script type="text/javascript" src="{{ get_url(path='/elasticlunr.min.js', cachebust=true) }}"></script>
     <script type="text/javascript" src="{{ get_url(path='/search_index.en.js', cachebust=true) }}"></script>
     <script type="text/javascript" src="{{ get_url(path='/script.js', cachebust=true) }}"></script>

@@ -37,6 +37,7 @@ background = "background.webp"
 background_header = "checkers.svg"
 allow_invert_icon = false
 allow_invert_logo = false
+comment_api = "https://comments.optimix.workers.dev"
 pinned_links = [
     { title = "Posts", href = "/pages/posts/", icon = "📜" },
     { title = "Research", href = "/pages/research/", icon = "🧬" },
