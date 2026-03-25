@@ -907,11 +907,20 @@ img + em, video + em {
 
             a {
                 text-decoration: none;
+                padding: var(--spacing-sm) var(--spacing-md);
+                border-radius: calc(var(--border-radius) * 2);
+                transition: var(--transition);
+
+                &:hover {
+                    background-color: var(--highlight-color);
+                }
             }
 
             .older, .newer {
                 font-family: var(--font-mono);
+                font-size: 0.9em;
                 user-select: none;
+                color: var(--muted-color);
             }
 
             .newer {
