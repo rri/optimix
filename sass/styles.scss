@@ -309,7 +309,9 @@ h2 {
 table {
     border-collapse: collapse;
     margin: auto;
-    table-layout: fixed;
+    max-width: 100%;
+    overflow-x: auto;
+    display: block;
     border-top: var(--line-width) solid var(--fore-color);
     border-bottom: var(--line-width) solid var(--fore-color);
 
