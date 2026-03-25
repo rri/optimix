@@ -175,7 +175,16 @@ dialog {
 pre {
     font-size: 0.8em;
     padding: var(--spacing-md);
-    overflow-x: scroll;
+    overflow-x: auto;
+}
+
+:not(pre) > code {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background-color: var(--note-back-color);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius);
+    word-break: break-word;
 }
 
 body {
